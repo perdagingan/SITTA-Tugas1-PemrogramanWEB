@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SITTA — Tracking Pengiriman | Universitas Terbuka</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<div class="app-wrapper">
+
+  <!-- ── SIDEBAR ──────────────────────────────────────────── -->
+  <nav class="sidebar" role="navigation" aria-label="Menu Utama">
+    <div class="sidebar-logo">
+      <div class="logo-icon" aria-hidden="true">📚</div>
+      <div class="logo-text">
+        <strong>SITTA</strong>
+        <span>Universitas Terbuka</span>
+      </div>
+    </div>
+    <div class="sidebar-nav">
+      <p class="nav-label">Menu Utama</p>
+      <ul>
+        <li class="nav-item">
+          <a href="dashboard.html" class="nav-link" data-page="dashboard.html">
+            <span class="nav-icon">🏠</span> Dashboard
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="stok.html" class="nav-link" data-page="stok.html">
+            <span class="nav-icon">📖</span> Informasi Bahan Ajar
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="tracking.html" class="nav-link active" data-page="tracking.html">
+            <span class="nav-icon">🚚</span> Tracking Pengiriman
+          </a>
+        </li>
+        <li class="nav-item has-dropdown">
+          <div class="nav-link" role="button" tabindex="0">
+            <span class="nav-icon">📊</span> Laporan
+            <span class="nav-arrow" aria-hidden="true">▾</span>
+          </div>
+          <ul class="nav-dropdown">
+            <li class="nav-item">
+              <a href="#" class="nav-link" onclick="alert('Sedang dalam pengembangan.')">
+                <span class="nav-icon">📈</span> Monitoring Progress DO
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link" onclick="alert('Sedang dalam pengembangan.')">
+                <span class="nav-icon">📋</span> Rekap Bahan Ajar
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a href="dashboard.html#histori-section" class="nav-link">
+            <span class="nav-icon">🗂</span> Histori Transaksi
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="sidebar-footer">
+      <div class="user-avatar" id="sidebar-avatar" aria-hidden="true">A</div>
+      <div class="user-info">
+        <strong id="sidebar-nama">Loading...</strong>
+        <small id="sidebar-role">—</small>
+      </div>
+      <button class="btn-logout" onclick="hapusSesi()" title="Keluar" aria-label="Keluar">⏻</button>
+    </div>
+  </nav>
+
+  <!-- ── MAIN CONTENT ──────────────────────────────────────── -->
+  <div class="main-content">
+
+    <header class="topbar" role="banner">
+      <div class="topbar-title">
+        <h1>Tracking Pengiriman</h1>
+        <p>Lacak status pengiriman Delivery Order bahan ajar</p>
+      </div>
+      <div class="topbar-actions">
+        <span class="topbar-date" id="topbar-date" aria-live="polite">—</span>
+      </div>
+    </header>
+
+    <main class="page-content" role="main">
+
+      <h2 class="section-title">🔍 Lacak Nomor Delivery Order</h2>
+
+      <!-- ── Hint Demo ────────────────────────────────────── -->
+      <div class="demo-hint" role="note">
+        <strong>💡 Coba Nomor DO Demo:</strong>
+        Ketik <strong>2023001234</strong> (Dalam Perjalanan) atau
+        <strong>2023005678</strong> (Terkirim) lalu klik Lacak.
+      </div>
+
+      <!-- ── Form Tracking ────────────────────────────────── -->
+      <!--
+        Form ini tidak reload halaman (e.preventDefault di JS).
+        Saat submit, initTracking() di script.js akan mencari
+        nomor DO di objek dataTracking dari data.js.
+      -->
+      <form id="form-tracking" novalidate>
+        <div class="tracking-search">
+          <div class="form-group" style="flex:1">
+            <label class="form-label" for="input-nodo">Nomor Delivery Order (No. DO / Billing)</label>
+            <input
+              type="text"
+              id="input-nodo"
+              class="form-control"
+              placeholder="Contoh: 2023001234"
+              maxlength="20"
+              autocomplete="off"
+              aria-label="Masukkan Nomor Delivery Order"
+            />
+          </div>
+          <button type="submit" class="btn btn-primary btn-lg" style="align-self:flex-end;margin-bottom:0">
+            🔍 &nbsp;Lacak
+          </button>
+        </div>
+      </form>
+
+      <!-- ── Hasil Tracking ───────────────────────────────── -->
+      <!--
+        Div ini awalnya tersembunyi (class "tracking-result" tanpa "visible").
+        Saat data ditemukan, script.js akan mengisi innerHTML-nya dan
+        menambahkan class "visible" agar tampil.
+      -->
+      <div id="hasil-tracking" class="tracking-result" aria-live="polite" aria-atomic="true"></div>
+
+      <!-- ── Tabel Riwayat Pencarian Terakhir (Dummy) ───── -->
+      <div class="card mt-3">
+        <div class="card-header">
+          <h3>🕐 Pencarian Terakhir</h3>
+        </div>
+        <div class="card-body" style="padding:0">
+          <div class="table-wrapper">
+            <table aria-label="Tabel Riwayat Pencarian">
+              <thead>
+                <tr>
+                  <th>No. DO</th>
+                  <th>Penerima</th>
+                  <th>Ekspedisi</th>
+                  <th>Tanggal Cari</th>
+                  <th>Status</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>2023001234</strong></td>
+                  <td>Rina Wulandari</td>
+                  <td>JNE</td>
+                  <td>25 Agustus 2025</td>
+                  <td><span class="badge badge-warning">Dalam Perjalanan</span></td>
+                  <td>
+                    <button class="btn btn-sm btn-outline"
+                      onclick="document.getElementById('input-nodo').value='2023001234';document.getElementById('form-tracking').dispatchEvent(new Event('submit'))">
+                      🔍 Lacak
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>2023005678</strong></td>
+                  <td>Agus Pranoto</td>
+                  <td>Pos Indonesia</td>
+                  <td>26 Agustus 2025</td>
+                  <td><span class="badge badge-success">Terkirim</span></td>
+                  <td>
+                    <button class="btn btn-sm btn-outline"
+                      onclick="document.getElementById('input-nodo').value='2023005678';document.getElementById('form-tracking').dispatchEvent(new Event('submit'))">
+                      🔍 Lacak
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div><!-- /main-content -->
+</div><!-- /app-wrapper -->
+
+<script src="js/data.js"></script>
+<script src="js/script.js"></script>
+</body>
+</html>

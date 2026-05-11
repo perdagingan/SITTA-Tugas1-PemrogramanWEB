@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SITTA — Login | Universitas Terbuka</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════
+     HALAMAN LOGIN
+     Menggunakan layout dua kolom: panel kiri (branding) dan
+     panel kanan (form login).
+     ═══════════════════════════════════════════════════════════ -->
+<main class="login-page" role="main">
+
+  <!-- ── Panel Kiri: Branding & Info ────────────────────── -->
+  <aside class="login-panel-left" aria-label="Informasi Aplikasi">
+    <!-- Logo -->
+    <div class="login-brand">
+      <div class="brand-logo" role="img" aria-label="Logo SITTA">📚</div>
+      <div class="brand-name">
+        <strong>SITTA</strong>
+        <span>Sistem Informasi Tata Kelola Bahan Ajar</span>
+      </div>
+    </div>
+
+    <!-- Hero Text -->
+    <div class="login-hero">
+      <h2>Kelola Bahan Ajar<br><em>Lebih Cerdas.</em></h2>
+      <p>
+        Platform digital terintegrasi untuk pemesanan, pelacakan,
+        dan pengelolaan stok bahan ajar Universitas Terbuka
+        di seluruh UPBJJ Indonesia.
+      </p>
+    </div>
+
+    <!-- Fitur Highlight -->
+    <div class="login-features" aria-label="Fitur Unggulan">
+      <div class="login-feature-item">
+        <div class="feat-icon" aria-hidden="true">📦</div>
+        <span>Pemesanan &amp; Tracking Pengiriman Real-time</span>
+      </div>
+      <div class="login-feature-item">
+        <div class="feat-icon" aria-hidden="true">📊</div>
+        <span>Laporan &amp; Monitoring Progress DO Bahan Ajar</span>
+      </div>
+      <div class="login-feature-item">
+        <div class="feat-icon" aria-hidden="true">🏫</div>
+        <span>Terintegrasi dengan Seluruh UPBJJ Nasional</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── Panel Kanan: Form Login ─────────────────────────── -->
+  <section class="login-panel-right" aria-label="Form Login">
+    <div class="login-form-box">
+
+      <h1>Masuk ke SITTA</h1>
+      <p class="login-subtitle">Gunakan akun Universitas Terbuka Anda</p>
+
+      <!-- DEMO HINT: Panduan untuk demonstrasi -->
+      <div class="demo-hint" role="note">
+        <strong>💡 Demo Login</strong>
+        Email: <code>admin@ut.ac.id</code> &nbsp;|&nbsp;
+        Password: <code>admin123</code>
+      </div>
+
+      <!-- Form Login -->
+      <form id="form-login" novalidate>
+
+        <!-- Input Email -->
+        <div class="form-group">
+          <label class="form-label" for="input-email">Alamat Email</label>
+          <div class="login-input-wrap">
+            <span class="input-icon" aria-hidden="true">✉️</span>
+            <input
+              type="email"
+              id="input-email"
+              class="form-control"
+              placeholder="email@ut.ac.id"
+              autocomplete="email"
+              required
+              aria-required="true"
+            />
+          </div>
+        </div>
+
+        <!-- Input Password -->
+        <div class="form-group">
+          <label class="form-label" for="input-password">Kata Sandi</label>
+          <div class="login-input-wrap">
+            <span class="input-icon" aria-hidden="true">🔒</span>
+            <input
+              type="password"
+              id="input-password"
+              class="form-control"
+              placeholder="Masukkan kata sandi"
+              autocomplete="current-password"
+              required
+              aria-required="true"
+            />
+            <button type="button" id="toggle-pw" class="toggle-pw" aria-label="Tampilkan password">👁</button>
+          </div>
+        </div>
+
+        <!-- Ingat Saya + Lupa Password -->
+        <div class="remember-row">
+          <label>
+            <input type="checkbox" /> Ingat saya
+          </label>
+          <a href="#" id="btn-lupa-pw">Lupa password?</a>
+        </div>
+
+        <!-- Tombol Login -->
+        <button type="submit" class="btn btn-primary btn-lg btn-full">
+          🔓 &nbsp;Masuk
+        </button>
+
+        <div class="login-divider">atau</div>
+
+        <!-- Link Daftar -->
+        <div class="login-links">
+          <a href="#" id="btn-daftar" role="button">📝 Daftar Akun Baru</a>
+        </div>
+
+      </form>
+    </div>
+  </section>
+</main>
+
+<!-- ═══════════════════════════════════════════════════════════
+     MODAL: LUPA PASSWORD
+     Ditampilkan via JS ketika link "Lupa password?" diklik.
+     ═══════════════════════════════════════════════════════════ -->
+<div id="modal-lupa-pw" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-lupa-title">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 id="modal-lupa-title">🔑 Lupa Kata Sandi</h3>
+      <button class="modal-close" aria-label="Tutup modal">✕</button>
+    </div>
+    <div class="modal-body">
+      <p style="margin-bottom:18px;color:var(--gray-600);font-size:.9rem">
+        Masukkan email akun Anda. Kami akan mengirimkan tautan untuk mengatur ulang kata sandi.
+      </p>
+      <div class="form-group">
+        <label class="form-label" for="lupa-email">Alamat Email</label>
+        <input type="email" id="lupa-email" class="form-control" placeholder="email@ut.ac.id" />
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-primary btn-full"
+        onclick="alert('Link reset password telah dikirim ke email Anda! (Simulasi Demo)'); tutupModal('modal-lupa-pw');"
+      >
+        📧 Kirim Tautan Reset
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     MODAL: DAFTAR AKUN BARU
+     Ditampilkan via JS ketika tombol "Daftar" diklik.
+     ═══════════════════════════════════════════════════════════ -->
+<div id="modal-daftar" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-daftar-title">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 id="modal-daftar-title">📝 Daftar Akun Baru</h3>
+      <button class="modal-close" aria-label="Tutup modal">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="daftar-nama">Nama Lengkap</label>
+          <input type="text" id="daftar-nama" class="form-control" placeholder="Nama Anda" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="daftar-nip">NIP / NIM</label>
+          <input type="text" id="daftar-nip" class="form-control" placeholder="Nomor Induk" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="daftar-email">Alamat Email</label>
+        <input type="email" id="daftar-email" class="form-control" placeholder="email@ut.ac.id" />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="daftar-unit">Unit / UPBJJ</label>
+        <input type="text" id="daftar-unit" class="form-control" placeholder="Contoh: UPBJJ Jakarta" />
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="daftar-pw">Kata Sandi</label>
+          <input type="password" id="daftar-pw" class="form-control" placeholder="Min. 8 karakter" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="daftar-pw2">Konfirmasi Sandi</label>
+          <input type="password" id="daftar-pw2" class="form-control" placeholder="Ulangi sandi" />
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-gold btn-full"
+        onclick="alert('Pendaftaran berhasil! Silakan tunggu verifikasi dari Admin. (Simulasi Demo)'); tutupModal('modal-daftar');"
+      >
+        ✅ Daftarkan Akun
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script src="js/data.js"></script>
+<script src="js/script.js"></script>
+</body>
+</html>

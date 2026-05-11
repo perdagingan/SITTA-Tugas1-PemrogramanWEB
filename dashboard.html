@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SITTA — Dashboard | Universitas Terbuka</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════
+     LAYOUT APLIKASI: SIDEBAR + MAIN CONTENT
+     ═══════════════════════════════════════════════════════════ -->
+<div class="app-wrapper">
+
+  <!-- ════════════════════════════════════════════════════════
+       SIDEBAR NAVIGASI
+       ════════════════════════════════════════════════════════ -->
+  <nav class="sidebar" role="navigation" aria-label="Menu Utama">
+
+    <!-- Logo -->
+    <div class="sidebar-logo">
+      <div class="logo-icon" aria-hidden="true">📚</div>
+      <div class="logo-text">
+        <strong>SITTA</strong>
+        <span>Universitas Terbuka</span>
+      </div>
+    </div>
+
+    <!-- Menu Navigasi -->
+    <div class="sidebar-nav">
+      <p class="nav-label">Menu Utama</p>
+      <ul>
+
+        <!-- Dashboard -->
+        <li class="nav-item">
+          <a href="dashboard.html" class="nav-link" data-page="dashboard.html">
+            <span class="nav-icon">🏠</span> Dashboard
+          </a>
+        </li>
+
+        <!-- Informasi Bahan Ajar -->
+        <li class="nav-item">
+          <a href="stok.html" class="nav-link" data-page="stok.html">
+            <span class="nav-icon">📖</span> Informasi Bahan Ajar
+          </a>
+        </li>
+
+        <!-- Tracking Pengiriman -->
+        <li class="nav-item">
+          <a href="tracking.html" class="nav-link" data-page="tracking.html">
+            <span class="nav-icon">🚚</span> Tracking Pengiriman
+          </a>
+        </li>
+
+        <!-- Laporan (Dropdown) -->
+        <li class="nav-item has-dropdown">
+          <div class="nav-link" role="button" tabindex="0" aria-expanded="false" aria-haspopup="true">
+            <span class="nav-icon">📊</span> Laporan
+            <span class="nav-arrow" aria-hidden="true">▾</span>
+          </div>
+          <ul class="nav-dropdown" aria-label="Sub-menu Laporan">
+            <li class="nav-item">
+              <a href="#" class="nav-link" onclick="alert('Halaman Monitoring Progress DO sedang dalam pengembangan.')">
+                <span class="nav-icon">📈</span> Monitoring Progress DO
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link" onclick="alert('Halaman Rekap Bahan Ajar sedang dalam pengembangan.')">
+                <span class="nav-icon">📋</span> Rekap Bahan Ajar
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <!-- Histori Transaksi -->
+        <li class="nav-item">
+          <a href="#histori-section" class="nav-link">
+            <span class="nav-icon">🗂</span> Histori Transaksi
+          </a>
+        </li>
+
+      </ul>
+    </div>
+
+    <!-- Footer Sidebar: Info Pengguna -->
+    <div class="sidebar-footer">
+      <div class="user-avatar" id="sidebar-avatar" aria-hidden="true">A</div>
+      <div class="user-info">
+        <strong id="sidebar-nama">Loading...</strong>
+        <small id="sidebar-role">—</small>
+      </div>
+      <button class="btn-logout" onclick="hapusSesi()" title="Keluar" aria-label="Keluar dari aplikasi">⏻</button>
+    </div>
+  </nav>
+
+  <!-- ════════════════════════════════════════════════════════
+       KONTEN UTAMA
+       ════════════════════════════════════════════════════════ -->
+  <div class="main-content">
+
+    <!-- Topbar -->
+    <header class="topbar" role="banner">
+      <div class="topbar-title">
+        <h1>Dashboard</h1>
+        <p>Selamat datang di Sistem Informasi Tata Kelola Bahan Ajar</p>
+      </div>
+      <div class="topbar-actions">
+        <span class="topbar-date" id="topbar-date" aria-live="polite">—</span>
+      </div>
+    </header>
+
+    <!-- Konten Halaman -->
+    <main class="page-content" role="main">
+
+      <!-- ── Greeting Card ──────────────────────────────── -->
+      <!-- Ucapan dinamis berdasarkan waktu via Date() di script.js -->
+      <div class="greeting-card" aria-live="polite">
+        <div class="greeting-label">SITTA — Universitas Terbuka</div>
+        <h2 id="greeting-text">Memuat...</h2>
+        <p>Pantau status bahan ajar, lacak pengiriman, dan kelola stok dari satu dasbor terintegrasi.</p>
+        <div class="greeting-icon" id="greeting-icon" aria-hidden="true">☀️</div>
+      </div>
+
+      <!-- ── Stat Cards ──────────────────────────────────── -->
+      <div class="stats-grid" role="region" aria-label="Ringkasan Statistik">
+
+        <article class="stat-card">
+          <div class="stat-icon navy" aria-hidden="true">📦</div>
+          <div>
+            <div class="stat-value">1.587</div>
+            <div class="stat-label">Total Stok Bahan Ajar</div>
+          </div>
+        </article>
+
+        <article class="stat-card">
+          <div class="stat-icon gold" aria-hidden="true">🚚</div>
+          <div>
+            <div class="stat-value">24</div>
+            <div class="stat-label">DO Aktif Bulan Ini</div>
+          </div>
+        </article>
+
+        <article class="stat-card">
+          <div class="stat-icon green" aria-hidden="true">✅</div>
+          <div>
+            <div class="stat-value">198</div>
+            <div class="stat-label">Pengiriman Selesai</div>
+          </div>
+        </article>
+
+        <article class="stat-card">
+          <div class="stat-icon blue" aria-hidden="true">🏫</div>
+          <div>
+            <div class="stat-value">39</div>
+            <div class="stat-label">UPBJJ Terlayani</div>
+          </div>
+        </article>
+
+      </div>
+
+      <!-- ── Shortcut Aksi Cepat ─────────────────────────── -->
+      <div class="card mb-3">
+        <div class="card-header">
+          <h3>⚡ Aksi Cepat</h3>
+        </div>
+        <div class="card-body" style="display:flex;gap:12px;flex-wrap:wrap">
+          <a href="stok.html" class="btn btn-primary">📖 Lihat Stok Bahan Ajar</a>
+          <a href="tracking.html" class="btn btn-gold">🔍 Lacak Pengiriman</a>
+          <button class="btn btn-outline" onclick="alert('Fitur buat DO baru akan segera hadir!')">📝 Buat DO Baru</button>
+          <button class="btn btn-outline" onclick="alert('Fitur cetak laporan akan segera hadir!')">🖨 Cetak Laporan</button>
+        </div>
+      </div>
+
+      <!-- ── Tabel Histori Transaksi ──────────────────────── -->
+      <section class="card" id="histori-section" aria-labelledby="histori-heading">
+        <div class="card-header">
+          <h3 id="histori-heading">🗂 Histori Transaksi Bahan Ajar</h3>
+          <a href="tracking.html" class="btn btn-sm btn-outline">Lihat Tracking →</a>
+        </div>
+        <div class="card-body" style="padding:0">
+          <div class="table-wrapper">
+            <table aria-label="Tabel Histori Transaksi Bahan Ajar">
+              <thead>
+                <tr>
+                  <th>No. DO</th>
+                  <th>Tanggal</th>
+                  <th>Penerima</th>
+                  <th>Bahan Ajar</th>
+                  <th style="text-align:center">Jumlah</th>
+                  <th>Ekspedisi</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <!-- Diisi secara dinamis oleh tampilkanHistori() di script.js -->
+              <tbody id="histori-tbody">
+                <tr><td colspan="7" style="text-align:center;padding:24px;color:var(--gray-400)">Memuat data...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div><!-- /main-content -->
+</div><!-- /app-wrapper -->
+
+<!-- Scripts: data.js harus dimuat sebelum script.js -->
+<script src="js/data.js"></script>
+<script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SITTA — Stok Bahan Ajar | Universitas Terbuka</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<div class="app-wrapper">
+
+  <!-- ── SIDEBAR ──────────────────────────────────────────── -->
+  <nav class="sidebar" role="navigation" aria-label="Menu Utama">
+    <div class="sidebar-logo">
+      <div class="logo-icon" aria-hidden="true">📚</div>
+      <div class="logo-text">
+        <strong>SITTA</strong>
+        <span>Universitas Terbuka</span>
+      </div>
+    </div>
+    <div class="sidebar-nav">
+      <p class="nav-label">Menu Utama</p>
+      <ul>
+        <li class="nav-item">
+          <a href="dashboard.html" class="nav-link" data-page="dashboard.html">
+            <span class="nav-icon">🏠</span> Dashboard
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="stok.html" class="nav-link active" data-page="stok.html">
+            <span class="nav-icon">📖</span> Informasi Bahan Ajar
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="tracking.html" class="nav-link" data-page="tracking.html">
+            <span class="nav-icon">🚚</span> Tracking Pengiriman
+          </a>
+        </li>
+        <li class="nav-item has-dropdown">
+          <div class="nav-link" role="button" tabindex="0">
+            <span class="nav-icon">📊</span> Laporan
+            <span class="nav-arrow" aria-hidden="true">▾</span>
+          </div>
+          <ul class="nav-dropdown">
+            <li class="nav-item">
+              <a href="#" class="nav-link" onclick="alert('Sedang dalam pengembangan.')">
+                <span class="nav-icon">📈</span> Monitoring Progress DO
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link" onclick="alert('Sedang dalam pengembangan.')">
+                <span class="nav-icon">📋</span> Rekap Bahan Ajar
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a href="dashboard.html#histori-section" class="nav-link">
+            <span class="nav-icon">🗂</span> Histori Transaksi
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="sidebar-footer">
+      <div class="user-avatar" id="sidebar-avatar" aria-hidden="true">A</div>
+      <div class="user-info">
+        <strong id="sidebar-nama">Loading...</strong>
+        <small id="sidebar-role">—</small>
+      </div>
+      <button class="btn-logout" onclick="hapusSesi()" title="Keluar" aria-label="Keluar">⏻</button>
+    </div>
+  </nav>
+
+  <!-- ── MAIN CONTENT ──────────────────────────────────────── -->
+  <div class="main-content">
+
+    <header class="topbar" role="banner">
+      <div class="topbar-title">
+        <h1>Informasi Stok Bahan Ajar</h1>
+        <p>Kelola dan pantau ketersediaan BMP di seluruh lokasi</p>
+      </div>
+      <div class="topbar-actions">
+        <button class="btn btn-gold btn-sm" onclick="toggleTambahStok()" aria-controls="tambah-stok-panel">
+          ➕ Tambah Stok
+        </button>
+        <span class="topbar-date" id="topbar-date" aria-live="polite">—</span>
+      </div>
+    </header>
+
+    <main class="page-content" role="main">
+
+      <h2 class="section-title">📚 Daftar Stok Bahan Ajar</h2>
+
+      <!-- ═══════════════════════════════════════════════════
+           FORM TAMBAH STOK
+           Tersembunyi secara default (display:none).
+           Toggle via tombol "Tambah Stok" → fungsi toggleTambahStok().
+           Saat submit, initTambahStok() di script.js menambah baris
+           baru ke dataBahanAjar[] dan me-render ulang tabel + card.
+           ═══════════════════════════════════════════════════ -->
+      <div id="tambah-stok-panel" class="tambah-stok-panel" style="display:none" role="region" aria-label="Form Tambah Stok">
+        <h4>➕ Tambah Data Stok Baru</h4>
+        <form id="form-tambah-stok" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="ts-kode">Kode Barang *</label>
+              <input type="text" id="ts-kode" class="form-control" placeholder="Contoh: EKMA4101" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="ts-nama">Nama Bahan Ajar *</label>
+              <input type="text" id="ts-nama" class="form-control" placeholder="Nama lengkap BMP" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="ts-jenis">Jenis Barang *</label>
+              <input type="text" id="ts-jenis" class="form-control" placeholder="BMP / Suplemen / Modul" value="BMP" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="ts-edisi">Edisi *</label>
+              <input type="number" id="ts-edisi" class="form-control" placeholder="1" min="1" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="ts-lokasi">Kode Lokasi / UPBJJ *</label>
+              <input type="text" id="ts-lokasi" class="form-control" placeholder="Contoh: 0JKT01" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="ts-stok">Jumlah Stok *</label>
+              <input type="number" id="ts-stok" class="form-control" placeholder="0" min="0" required />
+            </div>
+          </div>
+          <div style="display:flex;gap:10px">
+            <button type="submit" class="btn btn-primary">✅ Simpan &amp; Tambahkan</button>
+            <button type="button" class="btn btn-outline" onclick="toggleTambahStok()">Batal</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- ═══════════════════════════════════════════════════
+           VIEW TOGGLE: TABEL vs CARD
+           ═══════════════════════════════════════════════════ -->
+      <div style="display:flex;gap:8px;margin-bottom:16px;align-items:center">
+        <span style="font-size:.82rem;color:var(--gray-400);margin-right:4px">Tampilan:</span>
+        <button id="btn-view-tabel" class="btn btn-primary btn-sm" onclick="setView('tabel')">📋 Tabel</button>
+        <button id="btn-view-card"  class="btn btn-outline btn-sm" onclick="setView('card')">🃏 Card</button>
+      </div>
+
+      <!-- ═══════════════════════════════════════════════════
+           TABEL STOK
+           Diisi secara dinamis oleh renderTabelStok() di script.js
+           yang membaca array dataBahanAjar dari data.js.
+           ═══════════════════════════════════════════════════ -->
+      <div id="view-tabel">
+        <div class="card">
+          <div class="card-header">
+            <h3>📋 Tabel Stok Bahan Ajar</h3>
+            <small style="color:var(--gray-400)" id="jumlah-data">Memuat...</small>
+          </div>
+          <div class="card-body" style="padding:0">
+            <div class="table-wrapper">
+              <table aria-label="Tabel Stok Bahan Ajar">
+                <thead>
+                  <tr>
+                    <th>Kode Barang</th>
+                    <th>Nama Bahan Ajar</th>
+                    <th style="text-align:center">Jenis</th>
+                    <th style="text-align:center">Edisi</th>
+                    <th>Kode Lokasi</th>
+                    <th>Stok</th>
+                    <th>Aksi</th>
+                  </tr>
+                </thead>
+                <!-- Diisi dinamis oleh script.js -->
+                <tbody id="stok-tbody">
+                  <tr>
+                    <td colspan="7" style="text-align:center;padding:28px;color:var(--gray-400)">
+                      Memuat data stok...
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════════════
+           CARD GRID STOK
+           Tersembunyi secara default; tampil ketika view "Card" dipilih.
+           Diisi dinamis oleh renderCardStok() di script.js.
+           Cover buku menggunakan gambar nyata dari folder /img/.
+           ═══════════════════════════════════════════════════ -->
+      <div id="view-card" style="display:none">
+        <div class="stok-grid" id="stok-grid" role="list" aria-label="Daftar Stok Bahan Ajar dalam tampilan kartu">
+          <!-- Diisi dinamis oleh script.js -->
+        </div>
+      </div>
+
+    </main>
+  </div><!-- /main-content -->
+</div><!-- /app-wrapper -->
+
+<script src="js/data.js"></script>
+<script src="js/script.js"></script>
+<script>
+  /**
+   * Toggle antara tampilan Tabel dan Card.
+   * Menggunakan display CSS untuk menampilkan/menyembunyikan.
+   */
+  function setView(mode) {
+    var tbl  = document.getElementById("view-tabel");
+    var card = document.getElementById("view-card");
+    var btnT = document.getElementById("btn-view-tabel");
+    var btnC = document.getElementById("btn-view-card");
+
+    if (mode === "tabel") {
+      tbl.style.display  = "block";
+      card.style.display = "none";
+      btnT.className = "btn btn-primary btn-sm";
+      btnC.className = "btn btn-outline btn-sm";
+    } else {
+      tbl.style.display  = "none";
+      card.style.display = "block";
+      btnT.className = "btn btn-outline btn-sm";
+      btnC.className = "btn btn-primary btn-sm";
+    }
+  }
+
+  /**
+   * Update counter jumlah data setelah tabel dirender.
+   * Dipanggil via MutationObserver agar selalu sinkron.
+   */
+  (function() {
+    var observer = new MutationObserver(function() {
+      var rows = document.querySelectorAll("#stok-tbody tr");
+      var el   = document.getElementById("jumlah-data");
+      if (el) el.textContent = rows.length + " data ditemukan";
+    });
+    document.addEventListener("DOMContentLoaded", function() {
+      var tbody = document.getElementById("stok-tbody");
+      if (tbody) observer.observe(tbody, { childList: true });
+    });
+  })();
+</script>
+</body>
+</html>
